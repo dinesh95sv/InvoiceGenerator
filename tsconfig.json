@@ -6,7 +6,9 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     "**/*.ts",

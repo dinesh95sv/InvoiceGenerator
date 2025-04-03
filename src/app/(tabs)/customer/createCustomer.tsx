@@ -1,11 +1,11 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-export default function CustomerScreen() {
+export default function CreateCustomerScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Customer screen</Text>
+      <Text>New Customer Screen</Text>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
