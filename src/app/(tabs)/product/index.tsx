@@ -2,22 +2,23 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Link, Stack, useNavigation, Href } from 'expo-router';
-import CustomersList from '../../../components/customersList';
+import ProductsList from '../../../components/productsList';
 
-const NEW_CUSTOMER = "/customer/createCustomer" as Href
+const NEW_PRODUCT = "/product/createProduct" as Href
 
-export default function CustomerScreen() {
+export default function ProductsScreen() {
   // const [customers, setCustomers] = useState
   const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
+
   return (
     <View style={styles.container}>
-      <CustomersList />
-      <Link href={NEW_CUSTOMER} asChild>
-        <Text style={styles.button}>New Customer</Text>
+      <ProductsList />
+      <Link href={NEW_PRODUCT} asChild>
+        <Text style={styles.button}>New Product</Text>
       </Link>
     </View>
   );
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor: 'orange',
     color: 'white',
     margin: 10,
     padding: 10,

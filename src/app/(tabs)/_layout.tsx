@@ -17,7 +17,7 @@ export default function TabLayout() {
           title: 'Customer',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'business-sharp' : 'business-outline'} color={color} size={24}/>
+            <Ionicons name={focused ? 'people-sharp' : 'people-outline'} color={color} size={24}/>
           ),
         }}
       />
@@ -34,10 +34,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Create Invoice',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
+            <Ionicons name={focused ? 'pencil-sharp' : 'pencil-outline'} color={color} size={24} />
           ),
         }}
       />
@@ -52,12 +52,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="createInvoice"
+        name="factory"
         options={{
-          title: 'Create',
+          title: 'Factories',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'pencil-sharp' : 'pencil-outline'} color={color} size={24} />
+            <Ionicons name={focused ? 'business-sharp' : 'business-outline'} color={color} size={24} />
           ),
         }}
       />

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Stack, router, useNavigation } from 'expo-router';
 import { View, Text, StyleSheet, ToastAndroid, TextInput, Button } from 'react-native';
 
-import database, { customers } from '../../../db';
+import database, { factories } from '../../../db';
 
-export default function CreateCustomerScreen() {
+export default function CreateFactoryScreen() {
   const [ name, setName ] = useState('');
   const [ gstin, setGstin ] = useState('');
   const [ phone, setPhone ] = useState('');
@@ -28,7 +28,7 @@ export default function CreateCustomerScreen() {
   const saveCustomer = async () => {
     if (name != '' && gstin != '') {
       await database.write(async () => {
-        await customers.create((customer: { name: string; gstin: string; phone: string; email: string; address: string; }) => {
+        await factories.create((customer: { name: string; gstin: string; phone: string; email: string; address: string; }) => {
           customer.name = name;
           customer.gstin = gstin;
           customer.phone = phone;
@@ -40,7 +40,7 @@ export default function CreateCustomerScreen() {
       router.back();
     } else {
       ToastAndroid.show(
-        'Please Enter Customer Name and GST No to Save!',
+        'Please Enter Factory Name and GST No to Save!',
         ToastAndroid.SHORT
       );
     }
@@ -49,19 +49,19 @@ export default function CreateCustomerScreen() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: 'New Customer' }} />
+      <Stack.Screen options={{ title: 'New Factory' }} />
 
       <View style={styles.inputRow}>
-        <Text style={styles.label}>Customer Name</Text>
+        <Text style={styles.label}>Factory Name</Text>
         <TextInput
           value={name}
           onChangeText={setName}
-          placeholder="Aadhavan Super Market"
+          placeholder="Adhavan Group of Industries"
           style={styles.input}
         />
       </View>
       <View style={styles.inputRow}>
-        <Text style={styles.label}>Customer GST No</Text>
+        <Text style={styles.label}>Factory GST No</Text>
         <TextInput
           value={gstin}
           onChangeText={setGstin}
@@ -70,7 +70,7 @@ export default function CreateCustomerScreen() {
         />
       </View>
       <View style={styles.inputRow}>
-        <Text style={styles.label}>Customer Phone</Text>
+        <Text style={styles.label}>Factory Phone</Text>
         <TextInput
           value={phone}
           keyboardType="number-pad"
@@ -81,7 +81,7 @@ export default function CreateCustomerScreen() {
         />
       </View>
       <View style={styles.inputRow}>
-        <Text style={styles.label}>Customer Email</Text>
+        <Text style={styles.label}>Factory Email</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -90,7 +90,7 @@ export default function CreateCustomerScreen() {
         />
       </View>
       <View style={styles.inputRowLong}>
-        <Text style={styles.label}>Customer Address</Text>
+        <Text style={styles.label}>Factory Address</Text>
         <TextInput
           multiline
           numberOfLines={4}
@@ -108,7 +108,7 @@ export default function CreateCustomerScreen() {
           <Button color="#959292" title="Reset" onPress={clearAllFields} />
         </View>
         <View style={styles.buttons}>
-          <Button color="green" title="Save" onPress={saveCustomer} />
+          <Button color="pink" title="Save" onPress={saveCustomer} />
         </View>
       </View>
     </View>

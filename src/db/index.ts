@@ -6,6 +6,8 @@ import schema from './schema'
 import migrations from './migrations'
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 import Customers from '../model/Customers'
+import Products from '../model/Products'
+import Factories from '../model/Factories'
 // First, create the adapter to the underlying database:
 const adapter = new SQLiteAdapter({
   schema,
@@ -25,5 +27,11 @@ const adapter = new SQLiteAdapter({
 // Then, make a Watermelon database from it!
 const database = new Database({
   adapter,
-  modelClasses: [Customers],
+  modelClasses: [Customers, Products, Factories],
 })
+
+export default database;
+
+export const customers = database.get<Customers>('customers');
+export const products = database.get<Products>('products');
+export const factories = database.get<Factories>('factories');

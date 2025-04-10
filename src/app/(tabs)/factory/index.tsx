@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Link, Stack, useNavigation, Href } from 'expo-router';
-import CustomersList from '../../../components/customersList';
+import FactoriesList from '../../../components/factoriesList';
 
-const NEW_CUSTOMER = "/customer/createCustomer" as Href
+const NEW_FACTORY = "/factory/createFactory" as Href
 
-export default function CustomerScreen() {
+export default function FactoryScreen() {
   // const [customers, setCustomers] = useState
   const navigation = useNavigation();
 
@@ -15,9 +15,9 @@ export default function CustomerScreen() {
   }, [navigation]);
   return (
     <View style={styles.container}>
-      <CustomersList />
-      <Link href={NEW_CUSTOMER} asChild>
-        <Text style={styles.button}>New Customer</Text>
+      <FactoriesList />
+      <Link href={NEW_FACTORY} asChild>
+        <Text style={styles.button}>New Factoy</Text>
       </Link>
     </View>
   );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor: 'pink',
     color: 'white',
     margin: 10,
     padding: 10,
