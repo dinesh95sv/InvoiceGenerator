@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Stack, router, useNavigation } from 'expo-router';
 import { View, Text, StyleSheet, ToastAndroid, TextInput, Button } from 'react-native';
 
-import database, { products } from '../../../db';
+import database, { productsCollection } from '../../../db';
 
 export default function CreateProductScreen() {
   const [ name, setName ] = useState('');
@@ -23,7 +23,7 @@ export default function CreateProductScreen() {
     if (name != '' && price != '') {
       const cost = Number.parseInt(price);
       await database.write(async () => {
-        await products.create((product: { name: string; price: number; }) => {
+        await productsCollection.create((product: { name: string; price: number; }) => {
           product.name = name;
           product.price = cost;
         });

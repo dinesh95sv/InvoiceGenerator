@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import CustomerListItem from './customerListItem';
-import { customers } from '../db';
+import { customersCollection } from '../db';
 import Customers from '../model/Customers';
 
 import { withObservables } from '@nozbe/watermelondb/react';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 })
 
 const enhance = withObservables([], () => ({
-  customers: customers.query(),
+  customers: customersCollection.query(),
 }));
 
 export default enhance(CustomersList);

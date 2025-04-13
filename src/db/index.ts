@@ -32,6 +32,6 @@ const database = new Database({
 
 export default database;
 
-export const customers = database.get<Customers>('customers');
-export const products = database.get<Products>('products');
-export const factories = database.get<Factories>('factories');
+export const customersCollection = database.collections.get<Customers>('customers');
+export const productsCollection = database.collections.get<Products>('products');
+export const factoriesCollection = database.collections.get<Factories>('factories');

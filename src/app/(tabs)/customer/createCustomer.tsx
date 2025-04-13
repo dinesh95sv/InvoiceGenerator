@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Stack, router, useNavigation } from 'expo-router';
 import { View, Text, StyleSheet, ToastAndroid, TextInput, Button } from 'react-native';
 
-import database, { customers } from '../../../db';
+import database, { customersCollection } from '../../../db';
 
 export default function CreateCustomerScreen() {
   const [ name, setName ] = useState('');
@@ -28,7 +28,7 @@ export default function CreateCustomerScreen() {
   const saveCustomer = async () => {
     if (name != '' && gstin != '') {
       await database.write(async () => {
-        await customers.create((customer: { name: string; gstin: string; phone: string; email: string; address: string; }) => {
+        await customersCollection.create((customer: { name: string; gstin: string; phone: string; email: string; address: string; }) => {
           customer.name = name;
           customer.gstin = gstin;
           customer.phone = phone;

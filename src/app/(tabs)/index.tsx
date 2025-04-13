@@ -1,21 +1,6 @@
-import { Text, View, StyleSheet } from 'react-native';
+import CreateInvoice from '@/src/components/createInvoice';
+import { useState, useRef } from 'react';
 
 export default function Index() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Create Invoice screen</Text>
-    </View>
-  );
+  return <CreateInvoice />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#fff',
-  },
-});

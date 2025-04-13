@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import ProductListItem from './productListItem';
-import { products } from '../db';
+import { productsCollection } from '../db';
 import Products from '../model/Products';
 
 import { withObservables } from '@nozbe/watermelondb/react';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 })
 
 const enhance = withObservables([], () => ({
-  products: products.query(),
+  products: productsCollection.query(),
 }));
 
 export default enhance(ProductsList);

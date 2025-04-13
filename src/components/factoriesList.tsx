@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import FactoryListItem from './factoryListItem';
-import { factories } from '../db';
+import { factoriesCollection } from '../db';
 import Factories from '../model/Factories';
 
 import { withObservables } from '@nozbe/watermelondb/react';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 })
 
 const enhance = withObservables([], () => ({
-  factories: factories.query(),
+  factories: factoriesCollection.query(),
 }));
 
 export default enhance(FactoriesList);
