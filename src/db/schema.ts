@@ -30,6 +30,7 @@ export default appSchema({
         { name: 'name', type: 'string' },
         { name: 'gstin', type: 'string' },
         { name: 'phone', type: 'string' },
+        { name: 'code', type: 'string' },
         { name: 'address', type: 'string', isOptional: true },
         { name: 'email', type: 'string', isOptional: true },
         { name: 'created_at', type: 'number' },

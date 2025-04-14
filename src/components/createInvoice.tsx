@@ -7,6 +7,7 @@ import { withDatabase, withObservables } from '@nozbe/watermelondb/react';
 import database, { factoriesCollection } from '../db';
 import FactoryDisplay from './factoryDisplay';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Q } from '@nozbe/watermelondb';
 
 
 function CreateInvoice() {
@@ -15,6 +16,8 @@ function CreateInvoice() {
   const [dateValue, setDateValue] = useState(new Date());
   const [selectedFactory, setSelectedFactory] = useState('');
   const [factoriesList, setFactoriesList] = useState([]);
+  const [factoryInfo, setFactoryInfo] = useState([]);
+  const [invoiceNo, setInvoiceNo] = useState('');
 
   const onChangeDate = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
@@ -44,6 +47,25 @@ function CreateInvoice() {
     }, 2000);
   }, []);
 
+  const saveFactorySelection = (id: string) => {
+    setSelectedFactory(id);
+    const getFactInfo = async () => {
+      const factoryInfo = await database.get('factories').find(id);
+      setFactoryInfo(factoryInfo);
+      const newDate = new Date();
+      const hrs = newDate.getHours().toString().padStart(2, "0");
+      const mins = newDate.getMinutes().toString().padStart(2, "0");
+      const sec = newDate.getSeconds().toString().padStart(2, "0");
+      const milSec = newDate.getMilliseconds().toString().padStart(3, "0");
+      const InvNo = factoryInfo.code +'-'
+      +dateValue.getFullYear()+(dateValue.getMonth() + 1)+dateValue.getDate()
+      +hrs+mins+sec+milSec;
+      setInvoiceNo(InvNo);
+    }
+    getFactInfo();
+    
+  }
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -60,15 +82,19 @@ function CreateInvoice() {
               onPress={() => setShowDatePicker(true)}
               style={styles.selectorBox}
             >
-              {dateValue.getDate() +'/'+ dateValue.getMonth() +'/'+ dateValue.getFullYear()}
+              {dateValue.getDate() +'/'+ (dateValue.getMonth() + 1) +'/'+ dateValue.getFullYear()}
             </Text>
           </View>
           <View style={styles.row}>
             <FactoryDisplay
               factoriesList={factoriesList}
               selectedFactory={selectedFactory}
-              setFactoryId={(id) => setSelectedFactory(id)}
+              setFactoryId={(id) => saveFactorySelection(id)}
             />
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Invoice No:</Text>
+            <Text style={styles.invoice}>{invoiceNo}</Text>
           </View>
           {showDatePicker && (
             <DateTimePicker
@@ -122,6 +148,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     minWidth: '15%',
   },
+  invoice: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 18,
+    minWidth: '15%',
+  },
   selectorBox: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -130,7 +162,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     backgroundColor: '#fff',
-    borderRadius: 8,
+    borderRadius: 12,
     marginLeft: 5,
     marginRight: 5
   }

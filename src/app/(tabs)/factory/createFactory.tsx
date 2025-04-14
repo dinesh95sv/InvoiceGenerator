@@ -8,6 +8,7 @@ export default function CreateFactoryScreen() {
   const [ name, setName ] = useState('');
   const [ gstin, setGstin ] = useState('');
   const [ phone, setPhone ] = useState('');
+  const [ code, setCode ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ address, setAddress ] = useState('');
 
@@ -21,6 +22,7 @@ export default function CreateFactoryScreen() {
     setName('');
     setGstin('');
     setPhone('');
+    setCode('');
     setEmail('');
     setAddress('');
   }
@@ -28,12 +30,13 @@ export default function CreateFactoryScreen() {
   const saveCustomer = async () => {
     if (name != '' && gstin != '') {
       await database.write(async () => {
-        await factoriesCollection.create((customer: { name: string; gstin: string; phone: string; email: string; address: string; }) => {
-          customer.name = name;
-          customer.gstin = gstin;
-          customer.phone = phone;
-          customer.email = email;
-          customer.address = address;
+        await factoriesCollection.create((factory: { name: string; gstin: string; phone: string; code: string; email: string; address: string; }) => {
+          factory.name = name;
+          factory.gstin = gstin;
+          factory.phone = phone;
+          factory.code = code;
+          factory.email = email;
+          factory.address = address;
         });
       });
       clearAllFields();
@@ -64,7 +67,7 @@ export default function CreateFactoryScreen() {
         <Text style={styles.label}>Factory GST No</Text>
         <TextInput
           value={gstin}
-          onChangeText={setGstin}
+          onChangeText={(text) => setGstin(text.toUpperCase())}
           placeholder="07ABCDE1234F2Z5"
           style={styles.input}
         />
@@ -77,6 +80,16 @@ export default function CreateFactoryScreen() {
           onChangeText={(text) => setPhone(text.replace(/[^0-9]/g, ''))}
           placeholder="1234567890"
           maxLength={10}
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.inputRow}>
+        <Text style={styles.label}>Factory Code</Text>
+        <TextInput
+          value={code}
+          onChangeText={(text) => setCode(text.toUpperCase())}
+          placeholder="AGI"
+          maxLength={3}
           style={styles.input}
         />
       </View>

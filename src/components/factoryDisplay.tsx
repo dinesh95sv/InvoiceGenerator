@@ -26,6 +26,7 @@ function FactoryDisplay({ factoriesList, selectedFactory, setFactoryId }: { fact
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Factory:</Text>
+      <View style={styles.menu}>
         <Menu
           visible={isVisible}
           onDismiss={closeMenu}
@@ -53,6 +54,7 @@ function FactoryDisplay({ factoriesList, selectedFactory, setFactoryId }: { fact
             ))
           )}
         </Menu>
+      </View>
     </View>
   );
 }
@@ -71,52 +73,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     minWidth: '15%',
   },
-  dropdownButtonStyle: {
-    width: 200,
-    height: 50,
-    backgroundColor: '#E9ECEF',
-    borderRadius: 12,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-  },
-  dropdownButtonTxtStyle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#151E26',
-    textAlign: 'center',
-  },
-  dropdownMenuStyle: {
-    backgroundColor: '#E9ECEF',
-    borderRadius: 8,
-    height: 150,
-  },
-  dropdownItemStyle: {
-    width: '100%',
-    flexDirection: 'row',
-    paddingHorizontal: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#B1BDC8',
-  },
-  dropdownItemTxtStyle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#151E26',
-    textAlign: 'center',
-  },
-  dropdownItemIconStyle: {
-    fontSize: 28,
-    marginRight: 8,
-  },
   button: {
-    width: '100%',
-    marginLeft: 8
+    width: 320,
+  },
+  menu: {
+    marginLeft: 8,
+    width: 220
   }
 });
 

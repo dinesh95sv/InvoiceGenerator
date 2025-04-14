@@ -16,6 +16,7 @@ function FactoryListItem({ factory }: FactoryListItem) {
   const [name, setName] = useState(factory.name);
   const [gstin, setGstin] = useState(factory.gstin);
   const [ phone, setPhone ] = useState(factory.phone);
+  const [ code, setCode ] = useState(factory.code);
   const [ email, setEmail ] = useState(factory.email);
   const [ address, setAddress ] = useState(factory.address);
 
@@ -32,6 +33,7 @@ function FactoryListItem({ factory }: FactoryListItem) {
           factory.name = name;
           factory.gstin = gstin;
           factory.phone = phone;
+          factory.code = code;
           factory.email = email;
           factory.address = address;
         });
@@ -49,6 +51,7 @@ function FactoryListItem({ factory }: FactoryListItem) {
     setName(factory.name);
     setGstin(factory.gstin);
     setPhone(factory.phone);
+    setCode(factory.code);
     setEmail(factory.email);
     setAddress(factory.address);
   }
@@ -82,7 +85,7 @@ function FactoryListItem({ factory }: FactoryListItem) {
               <Text style={styles.label}>Factory GST No</Text>
               <TextInput
                 value={gstin}
-                onChangeText={setGstin}
+                onChangeText={(text) => setGstin(text.toUpperCase())}
                 placeholder="07ABCDE1234F2Z5"
                 style={styles.input}
               />
@@ -95,6 +98,16 @@ function FactoryListItem({ factory }: FactoryListItem) {
                 maxLength={10}
                 onChangeText={setPhone}
                 placeholder="1234567890"
+                style={styles.input}
+              />
+            </View>
+            <View style={styles.inputRow}>
+              <Text style={styles.label}>Factory Code</Text>
+              <TextInput
+                value={code}
+                onChangeText={(text) => setCode(text.toUpperCase())}
+                placeholder="AGI"
+                maxLength={3}
                 style={styles.input}
               />
             </View>
@@ -135,7 +148,7 @@ function FactoryListItem({ factory }: FactoryListItem) {
       <View>
         <Text style={styles.name}>{factory.name}</Text>
         <View>
-          <Text style={styles.others}>{factory.gstin}</Text>
+          <Text style={styles.others}>{factory.code}: {factory.gstin}</Text>
         </View>
         <View style={styles.details}>
           <Text style={styles.othersText}>Phone:</Text>

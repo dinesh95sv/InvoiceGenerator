@@ -8,6 +8,7 @@ export default class Factories extends Model {
   @text('name') name: string
   @text('phone') phone: string
   @text('gstin') gstin: string
+  @text('code') code: string
   @text('address') address: string
   @text('email') email: string
   @field('created_at') created_at: number
