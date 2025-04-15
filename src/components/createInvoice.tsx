@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TextInput, FlatList, ScrollView, RefreshControl } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { withDatabase, withObservables } from '@nozbe/watermelondb/react';
 
-import database, { factoriesCollection } from '../db';
+import database, { customersCollection, factoriesCollection } from '../db';
 import FactoryDisplay from './factoryDisplay';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Q } from '@nozbe/watermelondb';
+import CustomerDisplay from './customerDisplay';
 
 
 function CreateInvoice() {
@@ -15,7 +15,10 @@ function CreateInvoice() {
   const [refreshing, setRefreshing] = useState(false);
   const [dateValue, setDateValue] = useState(new Date());
   const [selectedFactory, setSelectedFactory] = useState('');
+  const [selectedCustomer, setSelectedCustomer] = useState('');
   const [factoriesList, setFactoriesList] = useState([]);
+  const [customersList, setCustomersList] = useState([]);
+  const [productsList, setProductsList] = useState([]);
   const [factoryInfo, setFactoryInfo] = useState([]);
   const [invoiceNo, setInvoiceNo] = useState('');
 
@@ -27,11 +30,16 @@ function CreateInvoice() {
 
   useEffect(() => {
     const loadData = async () => {
-      const recFactoriesData = await database.get('factories').query().fetch();
+      const  recFactoriesData = await database.get('factories').query().fetch();
+      const  recCustomersData = await database.get('customers').query().fetch();
+      const  recProductsData = await database.get('products').query().fetch();
 
-      setFactoriesList(recFactoriesData)
+      setFactoriesList(recFactoriesData);
+      setCustomersList(recCustomersData);
+      setProductsList(recProductsData);
     }
     loadData();
+
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -63,7 +71,18 @@ function CreateInvoice() {
       setInvoiceNo(InvNo);
     }
     getFactInfo();
-    
+  }
+
+  const saveCustomerSelection = (id: string) => {
+    setSelectedCustomer(id);
+  }
+
+  const queryCustomerRecords = (text: string) => {
+    const getCustomerRec = async() => {
+      const customerList = await database.get('customers').query(Q.where("name", Q.like(`%${Q.sanitizeLikeString(text)}%`)));
+      setCustomersList(customerList);
+    }
+    getCustomerRec();
   }
 
   return (
@@ -89,12 +108,20 @@ function CreateInvoice() {
             <FactoryDisplay
               factoriesList={factoriesList}
               selectedFactory={selectedFactory}
-              setFactoryId={(id) => saveFactorySelection(id)}
+              setFactoryId={(id: string) => saveFactorySelection(id)}
             />
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Invoice No:</Text>
             <Text style={styles.invoice}>{invoiceNo}</Text>
+          </View>
+          <View style={styles.row}>
+            <CustomerDisplay
+              customersList={customersList}
+              selectedCustomer={selectedCustomer}
+              setCustomerId={saveCustomerSelection}
+              queryCustomerRecords={(text: string) => queryCustomerRecords(text)}
+            />
           </View>
           {showDatePicker && (
             <DateTimePicker
@@ -112,6 +139,7 @@ function CreateInvoice() {
 
 const enhance = withObservables([], () => ({
   factories: factoriesCollection.query().observe(),
+  customers: customersCollection.query().observe(),
 }));
 
 export default enhance(CreateInvoice);

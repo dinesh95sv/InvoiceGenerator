@@ -25,7 +25,7 @@ function FactoryDisplay({ factoriesList, selectedFactory, setFactoryId }: { fact
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Factory:</Text>
+      <Text style={styles.label}>Factory:    </Text>
       <View style={styles.menu}>
         <Menu
           visible={isVisible}
@@ -34,7 +34,7 @@ function FactoryDisplay({ factoriesList, selectedFactory, setFactoryId }: { fact
             <Button
               mode={selectFactory ? "outlined" : "contained"}
               onPress={openMenu}
-              buttonColor={'white'}
+              buttonColor={'pink'}
               textColor={'black'}
               style={styles.button}
             >
@@ -74,10 +74,11 @@ const styles = StyleSheet.create({
     minWidth: '15%',
   },
   button: {
-    width: 320,
+    width: 260,
+    marginLeft: 6
   },
   menu: {
-    marginLeft: 8,
+    marginLeft: 6,
     width: 220
   }
 });
