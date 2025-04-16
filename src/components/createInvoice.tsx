@@ -1,13 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TextInput, FlatList, ScrollView, RefreshControl } from 'react-native';
+import { Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { withDatabase, withObservables } from '@nozbe/watermelondb/react';
 
-import database, { customersCollection, factoriesCollection } from '../db';
+import database, { customersCollection, factoriesCollection, productsCollection } from '../db';
 import FactoryDisplay from './factoryDisplay';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Q } from '@nozbe/watermelondb';
 import CustomerDisplay from './customerDisplay';
+import ProductDisplay from './productDisplay';
 
 
 function CreateInvoice() {
@@ -20,6 +22,8 @@ function CreateInvoice() {
   const [customersList, setCustomersList] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [factoryInfo, setFactoryInfo] = useState([]);
+  const [addingProduct, setAddingProduct] = useState(false);
+  const [productSelection, setProductSelection] = useState([]);
   const [invoiceNo, setInvoiceNo] = useState('');
 
   const onChangeDate = (event: any, selectedDate: any) => {
@@ -85,6 +89,19 @@ function CreateInvoice() {
     getCustomerRec();
   }
 
+  const queryProductRecords = (text: string) => {
+    const getProductRec = async() => {
+      const productList = await database.get('products').query(Q.where("name", Q.like(`%${Q.sanitizeLikeString(text)}%`)));
+      setProductsList(productList);
+    }
+    getProductRec();
+  }
+
+  const saveProductSelection = (data: any) => {
+    setProductSelection([...productSelection, data]);
+    setAddingProduct(!addingProduct)
+  }
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -123,6 +140,34 @@ function CreateInvoice() {
               queryCustomerRecords={(text: string) => queryCustomerRecords(text)}
             />
           </View>
+          {productSelection.length > 0 && (
+            <View style={styles.row}>
+              <View style={styles.productsRowHeader} key={'Header'}>
+                <Text style={styles.label}>{'Index '}</Text>
+                <Text style={styles.label}>{'Product  '}</Text>
+                <Text style={styles.rowEnd}>{'    Qty'}</Text>
+              </View>
+            {productSelection.map((product, index) => (
+              <View style={styles.productsRow} key={product.id}>
+                <Text style={styles.label}>{index+1}</Text>
+                <Text style={styles.label}>{product.name}</Text>
+                <Text style={styles.rowEnd}>{product.qty.toString()}</Text>
+              </View>
+            ))}
+            </View>
+          )}
+          {addingProduct && (
+            <View style={styles.row}>
+              <ProductDisplay
+                productsList={productsList}
+                saveProductSelection={saveProductSelection}
+                queryProductRecords={(text: string) => queryProductRecords(text)}
+              />
+            </View>
+          )}
+          <Button icon="plus" mode="contained" onPress={() => setAddingProduct(true)}>
+            Add Product
+          </Button>
           {showDatePicker && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -140,6 +185,7 @@ function CreateInvoice() {
 const enhance = withObservables([], () => ({
   factories: factoriesCollection.query().observe(),
   customers: customersCollection.query().observe(),
+  products: productsCollection.query().observe(),
 }));
 
 export default enhance(CreateInvoice);
@@ -170,8 +216,24 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     margin: 8
   },
-  label: {
+  productsRowHeader: {
+    // justifyContent: 'space-between',
     fontWeight: 'bold',
+    flexDirection: 'row',
+    margin: 6
+  },
+  productsRow: {
+    // justifyContent: 'space-between',
+    flexDirection: 'row',
+    margin: 6
+  },
+  label: {
+    color: 'white',
+    fontSize: 18,
+    minWidth: '15%',
+  },
+  rowEnd: {
+    alignItems: 'flex-end',
     color: 'white',
     fontSize: 18,
     minWidth: '15%',

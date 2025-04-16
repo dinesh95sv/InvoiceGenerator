@@ -46,7 +46,10 @@
             "extraPods": [
               {
                 "name": "simdjson",
-                "configurations": ["Debug", "Release"],
+                "configurations": [
+                  "Debug",
+                  "Release"
+                ],
                 "Path": "../node_modules/@nozbe/simdjson",
                 "modular_headers": true
               }
@@ -57,6 +60,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e6b8d94f-5322-49c1-82ca-3c35230cce20"
+      }
+    },
+    "owner": "dinesh95sv"
   }
 }
